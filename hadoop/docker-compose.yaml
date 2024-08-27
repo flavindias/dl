@@ -1,0 +1,101 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+networks:
+  hadoop:
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode1:
+
+services:
+  namenode:
+    build: .
+    hostname: namenode
+    restart: always
+    networks:
+      - hadoop
+    command: ["hdfs", "namenode"]
+    labels:
+      - 'traefik.enable=true'
+      - "traefik.http.routers.namenode.rule=Host(`namenode.distritoverde.isitics.com`)"
+      - "traefik.http.routers.namenode.entrypoints=web,websecure"
+      - "traefik.http.services.namenode.loadbalancer.server.port=9870"
+      - "traefik.http.routers.namenode.middlewares=redirect-to-https"
+      - "traefik.http.routers.namenode.service=namenode"
+      - "traefik.http.routers.namenode.tls=true"
+      - "traefik.http.routers.namenode.tls.certresolver=leresolver"
+    expose:
+      - 9870
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+    env_file:
+      - ./config
+    environment:
+      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+
+  datanode1:
+    build: .
+    command: ["hdfs", "datanode"]
+    restart: always
+    networks:
+      - hadoop
+    volumes:
+      - hadoop_datanode1:/hadoop/dfs/data
+    env_file:
+      - ./config
+  
+  datanode2:
+    build: .
+    command: ["hdfs", "datanode"]
+    restart: always
+    networks:
+      - hadoop
+    volumes:
+      - hadoop_datanode2:/hadoop/dfs/data
+    env_file:
+      - ./config
+
+  resourcemanager:
+    build: .
+    hostname: resourcemanager
+    restart: always
+    command: ["yarn", "resourcemanager"]
+    labels:
+      - 'traefik.enable=true'
+      - "traefik.http.routers.resourcemanager.rule=Host(`resourcemanager.distritoverde.isitics.com`)"
+      - "traefik.http.routers.resourcemanager.entrypoints=web,websecure"
+      - "traefik.http.services.resourcemanager.loadbalancer.server.port=8088"
+      - "traefik.http.routers.resourcemanager.middlewares=redirect-to-https"
+      - "traefik.http.routers.resourcemanager.service=resourcemanager"
+      - "traefik.http.routers.resourcemanager.tls=true"
+      - "traefik.http.routers.resourcemanager.tls.certresolver=leresolver"
+    expose:
+      - 8088
+    networks:
+      - hadoop
+    env_file:
+      - ./config
+    volumes:
+      - ./test.sh:/opt/test.sh
+  
+  nodemanager:
+    build: .
+    command: ["yarn", "nodemanager"]
+    restart: always
+    networks:
+      - hadoop
+    env_file:
+      - ./config

@@ -1,0 +1,50 @@
+volumes:
+  ranger-db:
+  ranger-solr:
+services:
+  ranger-admin:
+    labels:
+      # Frontend
+      - "traefik.enable=true"
+      - "traefik.http.routers.ranger-admin.rule=Host(`ranger.distritoverde.isitics.com`)"
+      - "traefik.http.routers.ranger-admin.entrypoints=web,websecure"
+      - "traefik.http.services.ranger-admin.loadbalancer.server.port=6080"
+      - "traefik.http.routers.ranger-admin.middlewares=redirect-to-https"
+      - "traefik.http.routers.ranger-admin.service=ranger-admin"
+      - "traefik.http.routers.ranger-admin.tls=true"
+      - "traefik.http.routers.ranger-admin.tls.certresolver=leresolver"
+    build:
+      context: ./ranger-admin
+      dockerfile: Dockerfile
+    container_name: ranger-admin
+    restart: always
+    expose:
+      - 6080
+    depends_on:
+      - ranger-db
+      - ranger-solr
+
+  ranger-db:
+    image: postgres
+    hostname: ranger-db
+    container_name: ranger-db
+    restart: always
+    volumes:
+      - ranger-db:/var/lib/postgresql
+    expose:
+      - 5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  ranger-solr:
+    image: solr:8.11.2
+    container_name: ranger-solr
+    restart: always
+    expose:
+      - 8983
+    volumes:
+      - ranger-solr:/opt/solr/server/solr/configsets/ranger_audits/conf
+    entrypoint:
+      - solr-precreate
+      - ranger_audits
+      - /opt/solr/server/solr/configsets/ranger_audits
