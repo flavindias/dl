@@ -56,7 +56,9 @@ services:
       - hive
 
   hiveserver2:
-    image: apache/hive:4.0.0
+    build:
+      context: ./hiveserver
+      dockerfile: Dockerfile
     depends_on:
       - metastore
     restart: unless-stopped
@@ -80,9 +82,6 @@ services:
       - 10002
     volumes:
       - warehouse:/opt/hive/data/warehouse
-      - type: bind
-        source: ./plugins/ranger-2.4.0-hive-plugin
-        target: /opt/ranger-hdfs-plugin
     networks:
       - hive
 
