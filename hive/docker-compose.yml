@@ -77,6 +77,8 @@ services:
       SERVICE_OPTS: '-Xmx1G -Dhive.metastore.uris=thrift://metastore:9083'
       IS_RESUME: 'true'
       SERVICE_NAME: 'hiveserver2'
+    entrypoint: ["/bin/sh", "-c", "/opt/ranger-hive-plugin/enable-hive-plugin.sh && hive --service hiveserver2"]
+    user: root
     expose:
       - 10000
       - 10002
