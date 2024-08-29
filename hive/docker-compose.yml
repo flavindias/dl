@@ -100,4 +100,3 @@ networks:
   ranger:
     external: true
   hive:
-    driver: bridge    
