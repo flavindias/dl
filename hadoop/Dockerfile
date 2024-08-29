@@ -20,8 +20,7 @@ ENV RANGER_VERSION 2.4.0
 
 ARG HADOOP_URL=https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 
-# Copy and install Ranger hdfs plugin
-COPY plugins/ranger-2.4.0-hdfs-plugin /opt/ranger-hdfs-plugin/
+
 
 WORKDIR /opt
 
@@ -32,7 +31,12 @@ WORKDIR /opt
     # && groupadd hadoop && adduser hdfs && usermod -aG hadoop hdfs
 
 RUN sudo rm -rf /opt/hadoop && curl -LSs -o hadoop.tar.gz $HADOOP_URL && tar zxf hadoop.tar.gz && rm hadoop.tar.gz && mv hadoop* hadoop && rm -rf /opt/hadoop/share/doc
+
+# Copy and install Ranger hdfs plugin
+COPY plugins/ranger-2.4.0-hdfs-plugin /opt/ranger-hdfs-plugin/
+
 WORKDIR /opt/hadoop
+
 ADD log4j.properties /opt/hadoop/etc/hadoop/log4j.properties
 RUN sudo chown -R hadoop:users /opt/hadoop/etc/hadoop/*
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
