@@ -70,7 +70,7 @@ services:
       - ranger
     labels:
       - 'traefik.enable=true'
-      - "traefik.http.routers.hiveserver2.rule=Host(`hive.distritoverde.isitics.com`)"
+      - "traefik.http.routers.hiveserver2.rule=Host(`hive.flavindias.com.br`)"
       - "traefik.http.routers.hiveserver2.entrypoints=web,websecure"
       - "traefik.http.services.hiveserver2.loadbalancer.server.port=10002"
       - "traefik.http.routers.hiveserver2.middlewares=redirect-to-https"
