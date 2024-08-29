@@ -16,7 +16,6 @@ WORKDIR /opt
 #     && rm /tmp/apache-ranger-hive-plugin.tar.gz
 
 # Configure the Ranger Hive plugin
-run echo whoami
 # RUN chown hive:hive /opt/ranger-hive-plugin/enable-hive-plugin.sh
 # RUN chmod 4755 /opt/ranger-hive-plugin/enable-hive-plugin.sh
 # RUN /opt/ranger-hive-plugin/enable-hive-plugin.sh
