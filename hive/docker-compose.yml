@@ -38,6 +38,9 @@ services:
     restart: unless-stopped
     container_name: metastore
     hostname: metastore
+    networks:
+      - hive
+      - ranger
     environment:
       DB_DRIVER: postgres
       SERVICE_NAME: 'metastore'
@@ -52,8 +55,6 @@ services:
         - type: bind
           source: ./postgresql-42.7.3.jar
           target: /opt/hive/lib/postgres.jar
-    networks:
-      - hive
 
   hiveserver2:
     build:
@@ -63,6 +64,10 @@ services:
       - metastore
     restart: unless-stopped
     container_name: hiveserver2
+    networks:
+      - traefik
+      - hive
+      - ranger
     labels:
       - 'traefik.enable=true'
       - "traefik.http.routers.hiveserver2.rule=Host(`hive.distritoverde.isitics.com`)"
@@ -84,13 +89,15 @@ services:
       - 10002
     volumes:
       - warehouse:/opt/hive/data/warehouse
-    networks:
-      - hive
 
 volumes:
   hive-db:
   warehouse:
 
 networks:
+  traefik:
+    external: true
+  ranger:
+    external: true
   hive:
-    name: hive
+    driver: bridge    

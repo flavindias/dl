@@ -14,6 +14,8 @@
 # limitations under the License.
 
 networks:
+  traefik:
+    external: true
   hadoop:
 
 volumes:
@@ -27,7 +29,10 @@ services:
     restart: always
     networks:
       - hadoop
-    command: ["hdfs", "namenode"]
+      - traefik
+    # command: ["hdfs", "namenode"]
+    entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namnenode"]
+    # user: root
     labels:
       - 'traefik.enable=true'
       - "traefik.http.routers.namenode.rule=Host(`namenode.distritoverde.isitics.com`)"
@@ -86,6 +91,7 @@ services:
       - 8088
     networks:
       - hadoop
+      - traefik
     env_file:
       - ./config
     volumes:

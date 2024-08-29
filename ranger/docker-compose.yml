@@ -1,6 +1,12 @@
+networks:
+  traefik:
+    external: true
+  ranger:
+  
 volumes:
   ranger-db:
   ranger-solr:
+
 services:
   ranger-admin:
     labels:
@@ -18,6 +24,9 @@ services:
       dockerfile: Dockerfile
     container_name: ranger-admin
     restart: always
+    networks:
+      - traefik
+      - ranger
     expose:
       - 6080
     depends_on:
@@ -29,6 +38,8 @@ services:
     hostname: ranger-db
     container_name: ranger-db
     restart: always
+    networks:
+      - ranger
     volumes:
       - ranger-db:/var/lib/postgresql
     expose:
@@ -40,6 +51,8 @@ services:
     image: solr:8.11.2
     container_name: ranger-solr
     restart: always
+    networks:
+      - ranger
     expose:
       - 8983
     volumes:
