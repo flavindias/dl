@@ -21,17 +21,15 @@ ENV RANGER_VERSION 2.4.0
 ARG HADOOP_URL=https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 
 # Copy and install Ranger hdfs plugin
-COPY plugins/ranger-${RANGER_VERSION}-hdfs-plugin.tar.gz /opt/ranger-${RANGER_VERSION}-hdfs-plugin.tar.gz
+COPY plugins/ranger-2.4.0-hdfs-plugin /opt/ranger-hdfs-plugin/
 
 WORKDIR /opt
 
 # Download and install Ranger hdfs plugin
-RUN tar -xvf ranger-${RANGER_VERSION}-hdfs-plugin.tar.gz \
-    && ln -s ranger-${RANGER_VERSION}-hdfs-plugin $RANGER_HDFS_PLUGIN_HOME \
-    && rm -f ranger-${RANGER_VERSION}-hdfs-plugin.tar.gz \
-    # && curl https://repo1.maven.org/maven2/commons-lang/commons-lang/2.6/commons-lang-2.6.jar -o $RANGER_HDFS_PLUGIN_HOME/lib/commons-lang-2.6.jar \
-    # && curl https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar  -o $RANGER_HDFS_PLUGIN_HOME/lib/log4j-api-2.13.3.jar \
-    && groupadd hadoop && adduser hdfs && usermod -aG hadoop hdfs
+# RUN tar -xvf ranger-${RANGER_VERSION}-hdfs-plugin.tar.gz \
+    # && ln -s ranger-${RANGER_VERSION}-hdfs-plugin $RANGER_HDFS_PLUGIN_HOME \
+    # && rm -f ranger-${RANGER_VERSION}-hdfs-plugin.tar.gz \
+    # && groupadd hadoop && adduser hdfs && usermod -aG hadoop hdfs
 
 RUN sudo rm -rf /opt/hadoop && curl -LSs -o hadoop.tar.gz $HADOOP_URL && tar zxf hadoop.tar.gz && rm hadoop.tar.gz && mv hadoop* hadoop && rm -rf /opt/hadoop/share/doc
 WORKDIR /opt/hadoop
