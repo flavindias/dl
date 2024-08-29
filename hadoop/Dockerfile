@@ -33,7 +33,7 @@ WORKDIR /opt
 RUN sudo rm -rf /opt/hadoop && curl -LSs -o hadoop.tar.gz $HADOOP_URL && tar zxf hadoop.tar.gz && rm hadoop.tar.gz && mv hadoop* hadoop && rm -rf /opt/hadoop/share/doc
 
 # Copy and install Ranger hdfs plugin
-COPY plugins/ranger-2.4.0-hdfs-plugin /opt/ranger-hdfs-plugin/
+COPY plugins/ranger-2.4.0-hdfs-plugin /opt/hadoop/etc/ranger-hdfs-plugin/
 
 WORKDIR /opt/hadoop
 
