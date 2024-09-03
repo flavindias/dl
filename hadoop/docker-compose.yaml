@@ -17,6 +17,7 @@ networks:
   traefik:
     external: true
   hadoop:
+    external: true
 
 volumes:
   hadoop_namenode:
