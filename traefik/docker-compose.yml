@@ -13,6 +13,7 @@ services:
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --providers.docker
+      - --providers.docker.network=traefik
       - --log.level=ERROR
       - --certificatesresolvers.leresolver.acme.httpchallenge=true
       - --certificatesresolvers.leresolver.acme.email=dikaxih717@barakal.com #Defina aqui seu endereço de e-mail, é para geração de certificados SSL com Let's Encrypt.
