@@ -2,6 +2,7 @@ networks:
   traefik:
     external: true
   ranger:
+    driver: bridge
   
 volumes:
   ranger-db:
