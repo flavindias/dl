@@ -7,12 +7,13 @@ services:
     container_name: nifi
     hostname: nifi
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`)"
-      - "traefik.http.routers.nifi.entrypoints=web,websecure"
-      - "traefik.http.services.nifi.loadbalancer.server.port=8443"
-      - "traefik.http.routers.nifi.service=nifi"
-      - "traefik.http.routers.nifi.tls.certresolver=leresolver"
+      - traefik.enable=true
+      - traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`) || Host(`www.nifi.flavindias.com.br`)
+      - traefik.http.services.nifi.loadbalancer.server.port=8443
+
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
+      - traefik.http.routers.nifi.middlewares=mywwwredirect
     networks:
       - traefik
     image: carlosmvs/nifi-dv:6
