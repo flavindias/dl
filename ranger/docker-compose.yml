@@ -11,15 +11,13 @@ volumes:
 services:
   ranger-admin:
     labels:
-      # Frontend
-      - "traefik.enable=true"
-      - "traefik.http.routers.ranger-admin.rule=Host(`ranger.flavindias.com.br`)"
-      - "traefik.http.routers.ranger-admin.entrypoints=web,websecure"
-      - "traefik.http.services.ranger-admin.loadbalancer.server.port=6080"
-      - "traefik.http.routers.ranger-admin.middlewares=redirect-to-https"
-      - "traefik.http.routers.ranger-admin.service=ranger-admin"
-      - "traefik.http.routers.ranger-admin.tls=true"
-      - "traefik.http.routers.ranger-admin.tls.certresolver=leresolver"
+      - traefik.enable=true
+      - traefik.http.routers.ranger-admin.rule=Host(`ranger.flavindias.com.br`) || Host(`www.ranger.flavindias.com.br`)
+      - traefik.http.services.ranger-admin.loadbalancer.server.port=6080
+
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
+      - traefik.http.routers.ranger-admin.middlewares=mywwwredirect
       
     build:
       context: ./ranger-admin
