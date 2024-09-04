@@ -5,20 +5,26 @@ networks:
 services:
   traefik:
     container_name: traefik
-    image: "traefik:latest"
+    image: "traefik:v3.0"
     restart: always
     networks:
       - traefik
     command:
+      - --api.dashboard=true
       - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entryPoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:443
-      - --providers.docker
+      - --entrypoints.websecure.asDefault=true
+      - --entrypoints.websecure.http.tls.certresolver=leresolver
+      # - --providers.docker
       - --providers.docker.network=traefik
-      - --log.level=ERROR
-      - --certificatesresolvers.leresolver.acme.httpchallenge=true
+      - --log.level=INFO
+      - --accesslog=true
+      - --certificatesresolvers.leresolver.acme.tlschallenge=true
       - --certificatesresolvers.leresolver.acme.email=dikaxih717@barakal.com #Defina aqui seu endereço de e-mail, é para geração de certificados SSL com Let's Encrypt.
       - --certificatesresolvers.leresolver.acme.storage=./acme.json
-      - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
+      # - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
     ports:
       - "80:80"
       - "443:443"
@@ -26,8 +32,11 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./acme.json:/acme.json"
     labels:
-      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.http-catchall.entrypoints=web"
-      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - traefik.enable=true
+      - traefik.http.routers.mydashboard.rule=Host(`traefik.flavindias.com.br`)
+      - traefik.http.routers.mydashboard.service=api@internal
+      # - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      # - "traefik.http.routers.http-catchall.entrypoints=web"
+      # - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      # - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       
