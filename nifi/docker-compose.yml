@@ -4,27 +4,23 @@ networks:
 
 services:
   nifi:
-    image: apache/nifi:latest
-    restart: unless-stopped
-    networks:
-      - traefik
-    expose:
-      - 8080
-    # volumes:
-    #   - nifi_data:/opt/nifi/nifi-current/logs
-    environment:
-      - NIFI_WEB_HTTP_PORT=8080
-      # - SINGLE_USER_CREDENTIALS_USERNAME=admin 
-      # - SINGLE_USER_CREDENTIALS_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
+    container_name: nifi
+    hostname: nifi
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`)" #Coloque o Seu Dominio do Portainer Aqui
-      - "traefik.http.services.nifi.loadbalancer.server.port=8080"
+      - "traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`)"
       - "traefik.http.routers.nifi.entrypoints=web,websecure"
-      - "traefik.http.routers.nifi.middlewares=redirect-to-https"
+      - "traefik.http.services.nifi.loadbalancer.server.port=8443"
       - "traefik.http.routers.nifi.service=nifi"
       - "traefik.http.routers.nifi.tls.certresolver=leresolver"
-      - "traefik.http.routers.nifi.tls=true"
+    networks:
+      - traefik
+    image: carlosmvs/nifi-dv:6
+    env_file:
+      - stack.env
+    ports:
+      - 2222:2222
+    expose:
+      - 8443
+      - 2222
 
-volumes:
-  nifi_data:
