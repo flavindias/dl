@@ -41,7 +41,7 @@ services:
   metastore:
     image: apache/hive:4.0.0
     depends_on:
-      - postgres
+      - hivedb
     restart: unless-stopped
     container_name: metastore
     hostname: metastore
@@ -91,6 +91,9 @@ services:
       SERVICE_NAME: 'hiveserver2'
     entrypoint: ["/bin/sh", "-c", "/opt/ranger-hive-plugin/enable-hive-plugin.sh && hive --service hiveserver2"]
     user: root
+    ports:
+      - 10000:10000
+      - 10002:10002
     expose:
       - 10000
       - 10002
