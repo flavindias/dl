@@ -11,10 +11,13 @@ services:
     networks:
       - traefik
     expose:
-      - 8443
+      - 9000
     environment:
       - SINGLE_USER_CREDENTIALS_USERNAME=admin 
       - SINGLE_USER_CREDENTIALS_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
+      - NIFI_WEB_HTTP_PORT=9000
+      - NIFI_WEB_HTTP_HOST=nifi.flavindias.com.br
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`)" #Coloque o Seu Dominio do Portainer Aqui
