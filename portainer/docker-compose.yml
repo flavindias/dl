@@ -15,7 +15,7 @@ services:
     labels:
       # Frontend
       - traefik.enable=true
-      - traefik.http.routers.frontend.rule=Host(`portainer.flavindias.com.br`)
+      - traefik.http.routers.frontend.rule=Host(`portainer.flavindias.com.br`) || Host(`www.portainer.flavindias.com.br`)
       - traefik.http.services.frontend.loadbalancer.server.port=9000
 
       - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
@@ -23,9 +23,9 @@ services:
       - traefik.http.routers.frontend.middlewares=mywwwredirect
 
       # Edge
-      - traefik.http.routers.edge.rule=Host(`edge.flavindias.com.br`)
-      - traefik.http.services.edge.loadbalancer.server.port=8000
-      - traefik.http.routers.edge.middlewares=mywwwredirect
+      # - traefik.http.routers.edge.rule=Host(`edge.flavindias.com.br`)
+      # - traefik.http.services.edge.loadbalancer.server.port=8000
+      # - traefik.http.routers.edge.middlewares=mywwwredirect
 
 volumes:
   portainer_data:
