@@ -16,8 +16,11 @@ services:
     networks:
       - traefik
     image: carlosmvs/nifi-dv:6
-    env_file:
-      - stack.env
+    environment:
+      - SINGLE_USER_CREDENTIALS_USERNAME=carlos
+      - SINGLE_USER_CREDENTIALS_PASSWORD=gesBtRBKHRAx69EqUghvvgEvjnaLjFEB
+      - NIFI_WEB_HTTP_PORT=8443
+      - NIFI_WEB_HTTPS_PORT=8443
     ports:
       - 2222:2222
     expose:
