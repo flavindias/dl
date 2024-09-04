@@ -29,8 +29,6 @@ services:
     networks:
       - traefik
       - ranger
-    ports:
-      - 6080:6080
     expose:
       - 6080
     depends_on:
