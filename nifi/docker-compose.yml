@@ -11,13 +11,13 @@ services:
     networks:
       - traefik
     expose:
-      - 9443
+      - 8080
+    volumes:
+      - nifi_data:/opt/nifi/nifi-current/logs
     environment:
-      - NIFI_WEB_HTTPS_PORT=9443
-      - NIFI_WEB_HTTPS_HOST=0.0.0.0
-      - NIFI_WEB_HTTP_HOST=nifi.flavindias.com.br
-      - NIFI_WEB_PROXY_CONTEXT_PATH=/
-      - NIFI_WEB_PROXY_PORT=443      
+      - NIFI_WEB_HTTP_PORT=8080
+      - NIFI_WEB_HTTP_HOST=0.0.0.0
+      - NIFI_WEB_PROXY_CONTEXT_PATH=/    
       - SINGLE_USER_CREDENTIALS_USERNAME=admin 
       - SINGLE_USER_CREDENTIALS_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
       
@@ -25,10 +25,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`)" #Coloque o Seu Dominio do Portainer Aqui
-      - "traefik.http.services.nifi.loadbalancer.server.port=9443"
+      - "traefik.http.services.nifi.loadbalancer.server.port=8080"
       - "traefik.http.routers.nifi.entrypoints=web,websecure"
       - "traefik.http.routers.nifi.middlewares=redirect-to-https"
       - "traefik.http.routers.nifi.service=nifi"
       - "traefik.http.routers.nifi.tls.certresolver=leresolver"
       - "traefik.http.routers.nifi.tls=true"
 
+volumes:
+  nifi_data:
