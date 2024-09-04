@@ -1,0 +1,27 @@
+networks:
+  traefik:
+    external: true
+
+services:
+  nifi:
+    image: apache/nifi:latest
+    restart: unless-stopped
+    container_name: nifi
+    hostname: nifi
+    networks:
+      - traefik
+    expose:
+      - 8443
+    environment:
+      - SINGLE_USER_CREDENTIALS_USERNAME=admin 
+      - SINGLE_USER_CREDENTIALS_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`)" #Coloque o Seu Dominio do Portainer Aqui
+      - "traefik.http.services.nifi.loadbalancer.server.port=9000"
+      - "traefik.http.routers.nifi.entrypoints=web,websecure"
+      - "traefik.http.routers.nifi.middlewares=redirect-to-https"
+      - "traefik.http.routers.nifi.service=nifi"
+      - "traefik.http.routers.nifi.tls.certresolver=leresolver"
+      - "traefik.http.routers.nifi.tls=true"
+
