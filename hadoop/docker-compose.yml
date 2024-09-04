@@ -36,14 +36,13 @@ services:
     # entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namnenode"]
     # user: root
     labels:
-      - 'traefik.enable=true'
-      - "traefik.http.routers.namenode.rule=Host(`namenode.flavindias.com.br`)"
-      - "traefik.http.routers.namenode.entrypoints=web,websecure"
-      - "traefik.http.services.namenode.loadbalancer.server.port=9870"
-      - "traefik.http.routers.namenode.middlewares=redirect-to-https"
-      - "traefik.http.routers.namenode.service=namenode"
-      - "traefik.http.routers.namenode.tls=true"
-      - "traefik.http.routers.namenode.tls.certresolver=leresolver"
+      - traefik.enable=true
+      - traefik.http.routers.namenode.rule=Host(`namenode.flavindias.com.br`) || Host(`www.namenode.flavindias.com.br`)
+      - traefik.http.services.namenode.loadbalancer.server.port=9870
+
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
+      - traefik.http.routers.namenode.middlewares=mywwwredirect
     expose:
       - 9870
     volumes:
@@ -161,14 +160,13 @@ services:
     restart: always
     command: ["yarn", "resourcemanager"]
     labels:
-      - 'traefik.enable=true'
-      - "traefik.http.routers.resourcemanager.rule=Host(`resourcemanager.flavindias.com.br`)"
-      - "traefik.http.routers.resourcemanager.entrypoints=web,websecure"
-      - "traefik.http.services.resourcemanager.loadbalancer.server.port=8088"
-      - "traefik.http.routers.resourcemanager.middlewares=redirect-to-https"
-      - "traefik.http.routers.resourcemanager.service=resourcemanager"
-      - "traefik.http.routers.resourcemanager.tls=true"
-      - "traefik.http.routers.resourcemanager.tls.certresolver=leresolver"
+      - traefik.enable=true
+      - traefik.http.routers.resourcemanager.rule=Host(`resourcemanager.flavindias.com.br`) || Host(`www.resourcemanager.flavindias.com.br`)
+      - traefik.http.services.resourcemanager.loadbalancer.server.port=8088
+
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
+      - traefik.http.routers.resourcemanager.middlewares=mywwwredirect
     expose:
       - 8088
     networks:
