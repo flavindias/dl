@@ -14,8 +14,8 @@ services:
       - nifi_data:/opt/nifi/nifi-current/logs
     environment:
       - NIFI_WEB_HTTP_PORT=8080
-      - SINGLE_USER_CREDENTIALS_USERNAME=admin 
-      - SINGLE_USER_CREDENTIALS_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
+      # - SINGLE_USER_CREDENTIALS_USERNAME=admin 
+      # - SINGLE_USER_CREDENTIALS_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nifi.rule=Host(`nifi.flavindias.com.br`)" #Coloque o Seu Dominio do Portainer Aqui
