@@ -16,8 +16,6 @@ services:
       - nifi_data:/opt/nifi/nifi-current/logs
     environment:
       - NIFI_WEB_HTTP_PORT=8080
-      - NIFI_WEB_HTTP_HOST=0.0.0.0
-      - NIFI_WEB_PROXY_CONTEXT_PATH=/    
       - SINGLE_USER_CREDENTIALS_USERNAME=admin 
       - SINGLE_USER_CREDENTIALS_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
       
