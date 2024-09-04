@@ -71,6 +71,7 @@ services:
       - metastore
     restart: unless-stopped
     container_name: hiveserver2
+    hostname: hiveserver2
     networks:
       - traefik
       - hive

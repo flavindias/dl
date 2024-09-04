@@ -18,7 +18,7 @@ WORKDIR /opt
 # Configure the Ranger Hive plugin
 # RUN chown hive:hive /opt/ranger-hive-plugin/enable-hive-plugin.sh
 # RUN chmod 4755 /opt/ranger-hive-plugin/enable-hive-plugin.sh
-# RUN /opt/ranger-hive-plugin/enable-hive-plugin.sh
+RUN sudo /opt/ranger-hive-plugin/enable-hive-plugin.sh
 
 # Set up the necessary configuration files for Ranger
 COPY conf/hive-site.xml $HIVE_HOME/conf/
