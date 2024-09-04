@@ -77,14 +77,13 @@ services:
       - hive
       - ranger
     labels:
-      - 'traefik.enable=true'
-      - "traefik.http.routers.hiveserver2.rule=Host(`hive.flavindias.com.br`)"
-      - "traefik.http.routers.hiveserver2.entrypoints=web,websecure"
-      - "traefik.http.services.hiveserver2.loadbalancer.server.port=10002"
-      - "traefik.http.routers.hiveserver2.middlewares=redirect-to-https"
-      - "traefik.http.routers.hiveserver2.service=hiveserver2"
-      - "traefik.http.routers.hiveserver2.tls=true"
-      - "traefik.http.routers.hiveserver2.tls.certresolver=leresolver"
+      - traefik.enable=true
+      - traefik.http.routers.hiveserver2.rule=Host(`hive.flavindias.com.br`) || Host(`www.hive.flavindias.com.br`)
+      - traefik.http.services.hiveserver2.loadbalancer.server.port=10002
+
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
+      - traefik.http.routers.hiveserver2.middlewares=mywwwredirect
     environment:
       HIVE_SERVER2_THRIFT_PORT: 10000
       SERVICE_OPTS: '-Xmx1G -Dhive.metastore.uris=thrift://metastore:9083'
