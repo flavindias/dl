@@ -19,6 +19,7 @@ services:
       - --entrypoints.websecure.http.tls.certresolver=leresolver
       # - --providers.docker
       - --providers.docker.network=traefik
+      - --providers.docker.exposedbydefault=false
       - --log.level=INFO
       - --accesslog=true
       - --certificatesresolvers.leresolver.acme.tlschallenge=true
