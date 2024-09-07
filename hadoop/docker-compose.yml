@@ -35,9 +35,9 @@ services:
       - hadoop
       - traefik
       - ranger
-    # command: ["hdfs", "namenode"]
-    entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namenode"]
-    user: root
+    command: ["hdfs", "namenode"]
+    # entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namenode"]
+    # user: root
     labels:
       - traefik.enable=true
       - traefik.http.routers.namenode.rule=Host(`namenode.flavindias.com.br`) || Host(`www.namenode.flavindias.com.br`)
