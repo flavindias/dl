@@ -23,7 +23,7 @@ services:
       - --log.level=INFO
       - --accesslog=true
       - --certificatesresolvers.leresolver.acme.tlschallenge=true
-      - --certificatesresolvers.leresolver.acme.email=dikaxih717@barakal.com #Defina aqui seu endereço de e-mail, é para geração de certificados SSL com Let's Encrypt.
+      - --certificatesresolvers.leresolver.acme.email=flavindias@msn.com #Defina aqui seu endereço de e-mail, é para geração de certificados SSL com Let's Encrypt.
       - --certificatesresolvers.leresolver.acme.storage=./acme.json
       # - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
     ports:

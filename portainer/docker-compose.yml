@@ -22,10 +22,5 @@ services:
       - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
       - traefik.http.routers.frontend.middlewares=mywwwredirect
 
-      # Edge
-      # - traefik.http.routers.edge.rule=Host(`edge.flavindias.com.br`)
-      # - traefik.http.services.edge.loadbalancer.server.port=8000
-      # - traefik.http.routers.edge.middlewares=mywwwredirect
-
 volumes:
   portainer_data:
