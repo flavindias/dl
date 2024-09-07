@@ -36,8 +36,8 @@ services:
       - traefik
       - ranger
     command: ["hdfs", "namenode"]
-    # entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namnenode"]
-    # user: root
+    entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namnenode"]
+    user: root
     labels:
       - traefik.enable=true
       - traefik.http.routers.namenode.rule=Host(`namenode.flavindias.com.br`) || Host(`www.namenode.flavindias.com.br`)
@@ -48,6 +48,8 @@ services:
       - traefik.http.routers.namenode.middlewares=mywwwredirect
     expose:
       - 9870
+      - 9000
+
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
     # env_file:
