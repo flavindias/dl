@@ -16,6 +16,8 @@
 networks:
   traefik:
     external: true
+  ranger:
+    external: true
   hadoop:
     name: hadoop
 
@@ -32,6 +34,7 @@ services:
     networks:
       - hadoop
       - traefik
+      - ranger
     command: ["hdfs", "namenode"]
     # entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namnenode"]
     # user: root
@@ -172,6 +175,7 @@ services:
     networks:
       - hadoop
       - traefik
+      - ranger
     # env_file:
     #   - ./config
     environment:
