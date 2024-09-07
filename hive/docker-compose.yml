@@ -19,7 +19,7 @@ networks:
   ranger:
     external: true
   hive:
-    external: true
+    name: hive
 
 services:
   hivedb:

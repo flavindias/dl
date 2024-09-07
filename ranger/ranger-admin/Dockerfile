@@ -7,6 +7,8 @@ ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar /opt
 
 ADD https://ftp.unicamp.br/pub/apache/ranger/${RANGER_VERSION}/apache-ranger-${RANGER_VERSION}.tar.gz /opt
 
+ADD https://repo1.maven.org/maven2/org/apache/ranger/ranger-hive-plugin/${RANGER_VERSION}/ranger-hive-plugin-${RANGER_VERSION}.jar /opt
+
 COPY ranger-entrypoint.sh /opt
 
 WORKDIR /opt
@@ -23,6 +25,9 @@ RUN apt-get -q update && apt-get install -y -q python gcc \
 
 ENV JAVA_HOME=/usr/local/openjdk-8
 ENV RANGER_HOME=/opt/ranger-${RANGER_VERSION}-admin
+
+# RUN tar -xvzf ranger-${RANGER_VERSION}-hive-plugin.tar.gz \
+#  && cp -r ranger-${RANGER_VERSION}-hive-plugin/* /opt/ranger-${RANGER_VERSION}-admin
 
 COPY install.properties ${RANGER_HOME}
 

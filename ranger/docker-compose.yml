@@ -2,7 +2,7 @@ networks:
   traefik:
     external: true
   ranger:
-    external: true
+    name: ranger
   
 volumes:
   ranger-db:
