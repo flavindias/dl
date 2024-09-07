@@ -35,7 +35,7 @@ services:
       - hadoop
       - traefik
       - ranger
-    command: ["hdfs", "namenode"]
+    # command: ["hdfs", "namenode"]
     entrypoint: ["/bin/sh", "-c", "/opt/ranger-hdfs-plugin/enable-hdfs-plugin.sh && hdfs namnenode"]
     user: root
     labels:
