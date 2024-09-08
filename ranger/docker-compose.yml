@@ -48,15 +48,24 @@ services:
       POSTGRES_PASSWORD: postgres
 
   ranger-solr:
-    image: solr:8.11.2
+    image: solr:8
     container_name: ranger-solr
     restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ranger-admin.rule=Host(`solr.flavindias.com.br`) || Host(`www.solr.flavindias.com.br`)
+      - traefik.http.services.ranger-admin.loadbalancer.server.port=8983
+
+      - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
+      - traefik.http.routers.ranger-admin.middlewares=mywwwredirect
     networks:
       - ranger
+      - traefik
     expose:
       - 8983
-    volumes:
-      - ranger-solr:/opt/solr/server/solr/configsets/ranger_audits/conf
+    # volumes:
+      # - ranger-solr:/opt/solr/server/solr/configsets/ranger_audits/conf
     entrypoint:
       - solr-precreate
       - ranger_audits
