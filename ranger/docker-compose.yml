@@ -53,12 +53,12 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ranger-admin.rule=Host(`solr.flavindias.com.br`) || Host(`www.solr.flavindias.com.br`)
-      - traefik.http.services.ranger-admin.loadbalancer.server.port=8983
+      - traefik.http.routers.solr.rule=Host(`solr.flavindias.com.br`) || Host(`www.solr.flavindias.com.br`)
+      - traefik.http.services.solr.loadbalancer.server.port=8983
 
       - traefik.http.middlewares.mywwwredirect.redirectregex.regex=^https://www\.(.*)
       - traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}
-      - traefik.http.routers.ranger-admin.middlewares=mywwwredirect
+      - traefik.http.routers.solr.middlewares=mywwwredirect
     networks:
       - ranger
       - traefik
