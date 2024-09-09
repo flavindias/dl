@@ -245,5 +245,13 @@ services:
       - "CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay=40"
       - "CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings="
       - "CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable=false"
-    # env_file:
-    #   - ./config
+    
+  zookeeper:
+    image: zookeeper:3.4.14
+    restart: always
+    hostname: zookeeper
+    networks:
+      - hadoop
+      - ranger
+    expose:
+      - 2181
