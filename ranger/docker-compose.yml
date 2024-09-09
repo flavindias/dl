@@ -65,7 +65,7 @@ services:
     expose:
       - 8983
     volumes:
-      - ./ranger-solr:/var/solr/data/ranger_audits/conf
+      - ./ranger-solr:/opt/solr/server/solr/configsets/ranger_audits/conf
       # - ranger-solr:/opt/solr/server/solr/configsets/ranger_audits/conf
     entrypoint:
       - solr-precreate
