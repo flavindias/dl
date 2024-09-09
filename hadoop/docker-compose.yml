@@ -91,6 +91,7 @@ services:
     restart: always
     networks:
       - hadoop
+      - ranger
     volumes:
       - hadoop_datanode1:/hadoop/dfs/data
     expose:
@@ -131,6 +132,7 @@ services:
     restart: always
     networks:
       - hadoop
+      - ranger
     expose:
       - 9867
     volumes:
@@ -224,6 +226,7 @@ services:
     restart: always
     networks:
       - hadoop
+      - ranger
     expose:
       - 8042
     environment:
