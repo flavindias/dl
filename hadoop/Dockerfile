@@ -17,6 +17,7 @@ FROM apache/hadoop-runner
 
 ENV RANGER_HDFS_PLUGIN_HOME /opt/ranger-hdfs-plugin
 ENV RANGER_VERSION 2.4.0
+ENV JAVA_HOME /usr/lib/jvm/jre/
 
 ARG HADOOP_URL=https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 
