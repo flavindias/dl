@@ -12,13 +12,14 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
---><configuration>
-<property>
-  <name>hive.security.authorization.manager</name>
-  <value>org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory</value>
-</property>
-<property>
-  <name>hive.security.authenticator.manager</name>
-  <value>org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator</value>
-</property>
+-->
+<configuration>
+  <!-- <property>
+    <name>hive.security.authorization.manager</name>
+    <value>org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory</value>
+  </property>
+  <property>
+    <name>hive.security.authenticator.manager</name>
+    <value>org.apache.hadoop.hive.ql.security.SessionStateUserAuthenticator</value>
+  </property> -->
 </configuration>
